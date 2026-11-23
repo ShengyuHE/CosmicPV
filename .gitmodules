@@ -1,0 +1,6 @@
+[submodule "tp4a-pv-delaunay"]
+	path = tp4a-pv-delaunay
+	url = https://github.com/josue-aubert/tp4a-pv-delaunay.git
+[submodule "logs/vendor/DIVE"]
+	path = logs/vendor/DIVE
+	url = https://github.com/josue-aubert/DIVE.git

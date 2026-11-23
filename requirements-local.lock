@@ -1,0 +1,3 @@
+finufft==2.5.1
+# Editable install with no version control (tpiva-parity-study==0.1.0)
+-e /home/users/h/hes/projects/2026_DT_Parity

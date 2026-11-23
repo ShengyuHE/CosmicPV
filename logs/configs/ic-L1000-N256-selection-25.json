@@ -1,0 +1,65 @@
+{
+  "description": "Extend the unchanged A=2 selection experiment to 25 displacement realizations (seeds 10\u201334). Reuse seeds 10\u201319 and generate only seeds 20\u201334. Fixed density seed 0, L=1000, N=256.",
+  "purpose": "selection_extension",
+  "field": {
+    "model": "mesh_za_helical",
+    "amplitude_convention": "rms",
+    "L": 1000.0,
+    "N": 256,
+    "particle_grid": 32,
+    "Ngal": 32768,
+    "density_seed": 0,
+    "sigma_delta": 0.2,
+    "helical_smoothing": 6.25,
+    "spectrum": {
+      "kind": "power_law",
+      "index": 0.0,
+      "smoothing": 6.25
+    },
+    "exclude_nyquist": true,
+    "tolerance": 1e-10
+  },
+  "null": {
+    "seeds": 25,
+    "A": 2.0,
+    "include_original_L1_A1": false
+  },
+  "scan": {
+    "seeds": 25,
+    "amplitudes": [
+      2.0
+    ]
+  },
+  "positive": {
+    "seeds": 0,
+    "fractions": []
+  },
+  "save_tetrahedra": true,
+  "scheduler": {
+    "partition": "public-cpu",
+    "cpus": 4,
+    "memory": "24G",
+    "time": "01:00:00",
+    "concurrency": 4,
+    "seeds_per_task": 1,
+    "validate": {
+      "partition": "public-cpu",
+      "cpus": 4,
+      "memory": "24G",
+      "time": "00:30:00"
+    },
+    "summary": {
+      "partition": "public-cpu",
+      "cpus": 2,
+      "memory": "4G",
+      "time": "00:15:00"
+    }
+  },
+  "seed_start": 10,
+  "selection_protocol": {
+    "path": "/home/users/h/hes/scratch/projects/cosmicPV/field_PVdisp/selections/extended_25/protocol.json",
+    "sha256": "500c58b4ca5ec4e66deeb24b71beff0bc1010a064b1c57d9b89db5ce19812817",
+    "primary_selection": "shape_2"
+  },
+  "reuse_from": "/home/users/h/hes/scratch/projects/cosmicPV/20261121_mesh_ic_L1000_N256_selection_confirmation"
+}

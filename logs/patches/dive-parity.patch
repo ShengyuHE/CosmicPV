@@ -1,0 +1,97 @@
+--- a/DIVE.cpp
++++ b/DIVE.cpp
+@@ -34,6 +34,9 @@
+ #include <fstream>
+ #include <vector>
+ #include <algorithm>
++#include <unistd.h>
++#include <sstream>
++#include <cmath>
+ #include <utility> 
+ 
+ /* Data types for Delaunay Triangulation. */
+@@ -57,7 +60,7 @@
+ /* Custom definitions. */
+ #define P_WRN           std::cerr << "\x1B[35;1mWarning:\x1B[0m "
+ #define P_ERR           std::cerr << "\x1B[31;1mError:\x1B[0m "
+-#define DIVE_PRECISION  10
++#define DIVE_PRECISION  17
+ 
+ 
+ void help(void) {
+@@ -66,6 +69,7 @@
+       << "  -h    Display this message and exit" << std::endl
+       << "  -i    Specify the input catalog" << std::endl
+       << "  -o    Specify the output catalog" << std::endl
++      << "  -g    Append volume and six sorted edge lengths (periodic mode)" << std::endl
+       << "  -l    Lower boundary of the periodic box (default: 0)" << std::endl
+       << "  -u    Upper boundary of the periodic box" << std::endl
+       << "        Periodic boundary condition is only enabled if '-u' is set"
+@@ -78,11 +82,13 @@
+ int main(int argc, char *argv[]) {
+   std::string ifile, ofile, Bmin_str, Bmax_str;
+   int opt;
++  bool geometry = false;
+ 
+   /* Parse command line options. */
+-  while ((opt = getopt(argc, argv, "hi:o:l:u:")) != EOF) {
++  while ((opt = getopt(argc, argv, "hgi:o:l:u:")) != EOF) {
+     switch (opt) {
+       case 'h': help(); return 0;
++      case 'g': geometry = true; break;
+       case 'i': ifile.assign(optarg); break;
+       case 'o': ofile.assign(optarg); break;
+       case 'l': Bmin_str.assign(optarg); break;
+@@ -164,24 +170,9 @@
+      std::ofstream ostr(ofile, std::ios::out);
+      ostr.precision(DIVE_PRECISION);
+ 
+-     for (tetra_iterator tetra = DT.periodic_tetrahedra_begin();
+-          tetra != DT.periodic_tetrahedra_end(); tetra++) {
++     for (tetra_iterator tetra = DT.periodic_tetrahedra_begin(P3DT3::UNIQUE);
++          tetra != DT.periodic_tetrahedra_end(P3DT3::UNIQUE); tetra++) {
+        Tetrahedron tet = DT.construct_tetrahedron(*tetra);
+-       Point_3 Pcen = CGAL::circumcenter(tet);
+-       FT radius = CGAL::squared_distance(Pcen, tet[0]);
+-
+-       /* Move centers into the box. */
+-       FT x, y, z;
+-       x = Pcen[0];
+-       y = Pcen[1];
+-       z = Pcen[2];
+-       if (x < Bmin) x += Bsize;
+-       else if (x >= Bmax) x -= Bsize;
+-       if (y < Bmin) y += Bsize;
+-       else if (y >= Bmax) y -= Bsize;
+-       if (z < Bmin) z += Bsize;
+-       else if (z >= Bmax) z -= Bsize;
+-
+        /* Compute parity */
+        Point_3 r_a = tet[0], r_b = tet[1], r_c = tet[2], r_d = tet[3];
+ 
+@@ -205,9 +196,24 @@
+       std::vector<double> lengths = {l_1, l_2, l_3};
+       std::sort(lengths.begin(), lengths.end());
+ 
++       const double geometric_volume = std::abs(chirality)/6.0;
++       // Equal distance scores have no invariant ordering. Give these cells
++       // zero weight in parity sums, retaining their cell count.
++       bool tied = v[0].first == v[1].first || v[1].first == v[2].first || v[2].first == v[3].first;
++       if (tied) chirality = 0.0;
+        double chirality_shape = chirality / (l_1 * l_2 * l_3);  // In [-1, 1]
+       
+-       ostr << chirality << " " << lengths[0] << " " << lengths[1] << " " << lengths[2] << std::endl;
++       ostr << chirality << " " << chirality_shape << " " << lengths[0] << " " << lengths[1] << " " << lengths[2];
++       if (geometry) {
++         std::vector<double> six_edges = {
++           std::sqrt(CGAL::to_double(l_ab)), std::sqrt(CGAL::to_double(l_ac)),
++           std::sqrt(CGAL::to_double(l_ad)), std::sqrt(CGAL::to_double(l_bc)),
++           std::sqrt(CGAL::to_double(l_bd)), std::sqrt(CGAL::to_double(l_cd))};
++         std::sort(six_edges.begin(), six_edges.end());
++         ostr << " " << geometric_volume;
++         for (double edge : six_edges) ostr << " " << edge;
++       }
++       ostr << std::endl;
+      }
+      ostr.close();
+   }

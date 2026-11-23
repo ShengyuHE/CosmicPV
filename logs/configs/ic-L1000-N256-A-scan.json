@@ -1,0 +1,79 @@
+{
+  "description": "Matched A scan in comoving h^-1 Mpc on 25 saved independent ICs. Frozen shape cut, fixed spectrum and resolution; epsilon=-1,0,+1 at seven nonzero A values and one shared ZA control at A=0.",
+  "purpose": "amplitude_scan",
+  "field": {
+    "model": "mesh_za_helical",
+    "amplitude_convention": "rms",
+    "L": 1000.0,
+    "N": 256,
+    "particle_grid": 32,
+    "Ngal": 32768,
+    "density_seed": null,
+    "sigma_delta": 0.2,
+    "helical_smoothing": 6.25,
+    "spectrum": {
+      "kind": "power_law",
+      "index": 0.0,
+      "smoothing": 6.25
+    },
+    "exclude_nyquist": true,
+    "tolerance": 1e-10
+  },
+  "null": {
+    "seeds": 25,
+    "A": 2.0,
+    "amplitudes": [
+      0.25,
+      0.5,
+      1.0,
+      2.0,
+      4.0,
+      8.0,
+      16.0
+    ],
+    "include_original_L1_A1": false
+  },
+  "scan": {
+    "seeds": 25,
+    "amplitudes": [
+      0.25,
+      0.5,
+      1.0,
+      2.0,
+      4.0,
+      8.0,
+      16.0
+    ]
+  },
+  "positive": {
+    "seeds": 0,
+    "fractions": []
+  },
+  "save_tetrahedra": true,
+  "scheduler": {
+    "partition": "public-cpu",
+    "cpus": 4,
+    "memory": "24G",
+    "time": "00:10:00",
+    "concurrency": 4,
+    "seeds_per_task": 1,
+    "validate": {
+      "partition": "public-cpu",
+      "cpus": 4,
+      "memory": "24G",
+      "time": "00:20:00"
+    },
+    "summary": {
+      "partition": "public-cpu",
+      "cpus": 2,
+      "memory": "4G",
+      "time": "00:30:00"
+    }
+  },
+  "seed_start": 100,
+  "length_unit": "h^-1 Mpc (comoving)",
+  "amplitude_protocol": {
+    "path": "/home/users/h/hes/scratch/projects/cosmicPV/field_PVdisp_A/protocol.json",
+    "sha256": "f2517fcbd61ed5ad4c7eb53f357cc4a46a6dc9727428b0544b754544241fb5cc"
+  }
+}

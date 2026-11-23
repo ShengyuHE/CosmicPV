@@ -1,0 +1,7 @@
+{
+  "DIVE": {
+    "url": "https://github.com/josue-aubert/DIVE.git",
+    "commit": "3e9cee401b1845d13e3a7925d688dfb195cb92cc",
+    "patch": "patches/dive-parity.patch"
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "description": "Confirmed fiducial configuration for the A=16 catalogue parity-violation study.",
+  "document_type": "Configuration summary; run_configuration contains the original submission settings.",
+  "created_utc": "2026-11-22T01:29:58.707199+00:00",
+  "run_id": "20261122_mesh_ic_L1000_N256_A16_confirmation_50",
+  "status": "completed",
+  "run_configuration": {
+    "description": "Fresh confirmation of the best tested configuration: A=16, fixed shape cut, 50 new independent Gaussian ICs, three matched helicities.",
+    "purpose": "best_configuration_confirmation",
+    "field": {
+      "model": "mesh_za_helical",
+      "amplitude_convention": "rms",
+      "L": 1000.0,
+      "N": 256,
+      "particle_grid": 32,
+      "Ngal": 32768,
+      "density_seed": null,
+      "sigma_delta": 0.2,
+      "helical_smoothing": 6.25,
+      "spectrum": {
+        "kind": "power_law",
+        "index": 0.0,
+        "smoothing": 6.25
+      },
+      "exclude_nyquist": true,
+      "tolerance": 1e-10
+    },
+    "null": {
+      "seeds": 50,
+      "A": 16.0,
+      "include_original_L1_A1": false
+    },
+    "scan": {
+      "seeds": 50,
+      "amplitudes": [
+        16.0
+      ]
+    },
+    "positive": {
+      "seeds": 0,
+      "fractions": []
+    },
+    "save_tetrahedra": true,
+    "scheduler": {
+      "partition": "public-cpu",
+      "cpus": 4,
+      "memory": "24G",
+      "time": "00:10:00",
+      "concurrency": 4,
+      "seeds_per_task": 1,
+      "validate": {
+        "partition": "public-cpu",
+        "cpus": 4,
+        "memory": "24G",
+        "time": "00:20:00"
+      },
+      "summary": {
+        "partition": "public-cpu",
+        "cpus": 2,
+        "memory": "6G",
+        "time": "00:30:00"
+      }
+    },
+    "seed_start": 1000,
+    "length_unit": "h^-1 Mpc (comoving)",
+    "confirmation_protocol": {
+      "path": "/srv/beegfs/scratch/users/h/hes/projects/cosmicPV/field_PVdisp_B/protocol.json",
+      "sha256": "8e1959a875358b5df59265c707a22697cedc5225209aee486301b70b6933b54c"
+    }
+  },
+  "displacement": {
+    "A": 16.0,
+    "length_unit": "h^-1 Mpc (comoving)",
+    "normalization": "A^2 = ensemble expectation of the spatial mean of |Psi_hel|^2; individual realizations are not rescaled.",
+    "epsilons": [
+      -1,
+      0,
+      1
+    ],
+    "helical_power_shape": "P_delta(k) * exp(-(k * R_h)^2) / k^4 on active Fourier modes",
+    "mode_normalization": "W_k = helical_power_shape(k) / sum_active_modes(helical_power_shape); displacement power = A^2 * W_k",
+    "helicity_mixture": "Psi_hel = A * [sqrt((1 + epsilon)/2) * u_plus + sqrt((1 - epsilon)/2) * u_minus]",
+    "unit_fields": "Independent pure-helicity Gaussian vector fields u_plus and u_minus, each with ensemble RMS magnitude 1.",
+    "particle_map": "x(q) = [q + Psi_ZA(q) + Psi_hel(q)] modulo L",
+    "particle_load": "Regular cell-centred lattice; both displacement fields evaluated at the same Lagrangian q using NUFFT.",
+    "boundary_conditions": "periodic",
+    "gravitational_evolution": false
+  },
+  "derived_physical_scales": {
+    "length_unit": "h^-1 Mpc (comoving)",
+    "mesh_spacing": 3.90625,
+    "particle_spacing": 31.25,
+    "smoothing": 6.25,
+    "expected_za_rms": 3.5470206982694843,
+    "helical_k_rms": 0.019695559332408855,
+    "inverse_k_rms_length": 50.772866265062575,
+    "kmin": 0.006283185307179587,
+    "kmax": 0.10053096491487339,
+    "n_modes": 17076
+  },
+  "realizations": {
+    "count": 50,
+    "seed_first": 1000,
+    "seed_last_inclusive": 1049,
+    "seed_step": 1,
+    "independent_gaussian_density_per_realization": true,
+    "independent_helical_pair_per_realization": true,
+    "random_streams": "SeedSequence(seed).spawn(3): density, positive helicity, negative helicity.",
+    "matching": "Independent Gaussian density and independent helical pair for each seed; the three helicities share that density, lattice and helical pair within a seed.",
+    "three_helicity_catalogues": 150,
+    "additional_ZA_only_controls": 50,
+    "total_catalogues": 200
+  },
+  "estimator": {
+    "triangulation": "Periodic Delaunay tetrahedra using the frozen DIVE executable.",
+    "statistic": "chi_hat",
+    "vertex_order": "Ascending sum of squared distances from each vertex to the other three; first vertex is the reference.",
+    "chi_hat_definition": "dot(v1, cross(v2, v3)) / (norm(v1) * norm(v2) * norm(v3)); edge vectors follow the canonical vertex order.",
+    "catalogue_signal": "S_s,B(epsilon) = mean chi_hat over selected tetrahedra B in realization s.",
+    "selection": {
+      "id": "shape_2",
+      "label": "Shape third 2",
+      "variable": "shape",
+      "low": 0.6905111410000623,
+      "high": 0.7567675934849439,
+      "ratio_definition": "r = l_min / l_max using the three reference-vertex edges.",
+      "lower_inclusive": true,
+      "upper_inclusive": false,
+      "both_chirality_signs_retained": true,
+      "frozen": true,
+      "recompute_thresholds_per_catalogue": false
+    },
+    "selection_origin": {
+      "reference_catalogue": "/srv/beegfs/scratch/users/h/hes/projects/cosmicPV/20261121_mesh_ic_L1000_N256_fixedIC_10/records/null_za/seed_0000.npz",
+      "reference_density_seed": 0,
+      "reference_helical_displacement_A": 0.0,
+      "reference_tetrahedra": 210324,
+      "threshold_quantiles": [
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "chosen_group": "Middle third of the reference r distribution.",
+      "discovery_A": 2.0,
+      "discovery_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "candidate_cuts": {
+        "shape_groups": 3,
+        "size_groups": 3,
+        "absolute_chirality_bands": 3
+      },
+      "ranking": "Largest absolute paired Student t among nine cuts; baseline excluded.",
+      "selection_protocol": "/home/users/h/hes/scratch/projects/cosmicPV/field_PVdisp/selections/protocol.json",
+      "reference_retained_fraction": 0.3333333333333333,
+      "confirmation_mean_retained_fraction": 0.24915135399016095
+    }
+  },
+  "analysis": {
+    "matched_difference": "D_s,B = S_s,B(+1) - S_s,B(-1)",
+    "primary_test": "One frozen amplitude and shape cut; two-sided paired Student t at alpha=0.05, requiring the discovery sign. D_s = S_s(+1) - S_s(-1).",
+    "expected_difference_sign": -1,
+    "secondary_controls": "Unselected tetrahedra, epsilon=0 and ZA-only controls are descriptive.",
+    "stopping_rule": "Analyze all 50 new ICs without adapting A, the cut, or sample size.",
+    "uncertainty": "Sample standard deviation of matched differences divided by sqrt(50); 95% mean confidence interval uses Student t with 49 degrees of freedom.",
+    "histogram": "One catalogue-mean chi_hat per IC and helicity; probability density normalized separately. Gaussian curves use the sample mean and sample standard deviation (ddof=1), not SEM.",
+    "gaussian_parameter_estimates": {
+      "mu": "sample mean of the 50 catalogue signals",
+      "sigma": "sample standard deviation with ddof=1"
+    },
+    "amplitude_choice": "Best selected |mean D|/SEM in the completed amplitude scan; fixed before these ICs."
+  },
+  "execution": {
+    "array_concurrency_prepared": 4,
+    "array_concurrency_used": 8,
+    "scheduler_override_record": "/home/users/h/hes/scratch/projects/cosmicPV/20261122_mesh_ic_L1000_N256_A16_confirmation_50/scheduler_override.json",
+    "slurm_job_ids": {
+      "validate": "4809394",
+      "ensemble": "4809395",
+      "summary": "4809396",
+      "confirmation-report": "4809397"
+    }
+  },
+  "confirmed_result": {
+    "signal_confirmed": true,
+    "mean_matched_difference": -0.10421064261135861,
+    "SEM": 0.0005898607096874362,
+    "mean_difference_95_percent_interval": [
+      -0.10539601208534471,
+      -0.1030252731373725
+    ],
+    "paired_two_sided_p": 2.173196696457706e-70,
+    "epsilon_zero_mean": -0.000244445470315856,
+    "epsilon_zero_SEM": 0.0003931364930078276,
+    "audit_passed": true
+  },
+  "paths": {
+    "notebook": "/home/users/h/hes/projects/2026_DT_Parity/results/filed_PVdisp_B.ipynb",
+    "scratch_run": "/home/users/h/hes/scratch/projects/cosmicPV/20261122_mesh_ic_L1000_N256_A16_confirmation_50",
+    "scratch_analysis": "/home/users/h/hes/scratch/projects/cosmicPV/field_PVdisp_B",
+    "figures": "/home/users/h/hes/scratch/projects/cosmicPV/field_PVdisp_B/figures",
+    "catalogue_signals_csv": "/home/users/h/hes/scratch/projects/cosmicPV/field_PVdisp_B/confirmation_catalogues.csv",
+    "saved_arrays": "/home/users/h/hes/scratch/projects/cosmicPV/field_PVdisp_B/confirmation.npz",
+    "original_run_configuration": "/home/users/h/hes/scratch/projects/cosmicPV/20261122_mesh_ic_L1000_N256_A16_confirmation_50/config.json",
+    "frozen_confirmation_protocol": "/srv/beegfs/scratch/users/h/hes/projects/cosmicPV/field_PVdisp_B/protocol.json"
+  },
+  "source_sha256": {
+    "run_configuration": "d03a9431feca9a32ba3583c24122db6191b8492da8aaecf7d5c84364fd0f8e89",
+    "run_manifest": "0dddf57433717428182f7911235271539aebb9269ecad979f7863f810bae99b7",
+    "confirmation_protocol": "8e1959a875358b5df59265c707a22697cedc5225209aee486301b70b6933b54c",
+    "original_selection_protocol": "06611b9272a9af0fdd554cafb0ad49b08ea23d9a562b4631571d3e182fc734a2",
+    "analysis": "176954ff2dd9a9dd3fca4d44112baa67bc0950e0fd53a017f7c1f2f32990caaf",
+    "notebook": "f6be0e9b6ea998773009fe4fa6ab19129470e1368a2e0ddef8dc5ca993420dae"
+  },
+  "scope": "Confirms the catalogue response at the chosen configuration; does not test a continuous amplitude optimum, Gaussianity, cosmological calibration or numerical convergence."
+}

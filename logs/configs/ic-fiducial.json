@@ -1,0 +1,16 @@
+{
+  "description": "Fiducial toy-spectrum mesh initial conditions: Gaussian density, Zel'dovich and independent helical displacement; mean chi_hat across paired seeds.",
+  "purpose": "signal_scan",
+  "field": {
+    "model": "mesh_za_helical", "amplitude_convention": "rms",
+    "L": 100.0, "N": 32, "particle_grid": 32, "Ngal": 32768,
+    "sigma_delta": 0.2, "helical_smoothing": 6.25,
+    "spectrum": {"kind": "power_law", "index": 0.0, "smoothing": 6.25},
+    "exclude_nyquist": true, "tolerance": 1e-10
+  },
+  "null": {"seeds": 100, "A": 2.0, "include_original_L1_A1": false},
+  "scan": {"seeds": 100, "amplitudes": [0.5, 1.0, 2.0, 4.0, 8.0]},
+  "positive": {"seeds": 0, "fractions": []},
+  "save_tetrahedra": true,
+  "scheduler": {"partition": "public-cpu", "cpus": 2, "memory": "4G", "time": "02:00:00", "concurrency": 4, "seeds_per_task": 5}
+}

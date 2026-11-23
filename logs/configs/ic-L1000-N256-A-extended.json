@@ -1,0 +1,93 @@
+{
+  "description": "Exploratory extension of the matched amplitude scan through A=256 comoving h^-1 Mpc. Reuse all earlier catalogues and find candidate peaks in signal magnitude and detection score.",
+  "purpose": "amplitude_scan",
+  "field": {
+    "model": "mesh_za_helical",
+    "amplitude_convention": "rms",
+    "L": 1000.0,
+    "N": 256,
+    "particle_grid": 32,
+    "Ngal": 32768,
+    "density_seed": null,
+    "sigma_delta": 0.2,
+    "helical_smoothing": 6.25,
+    "spectrum": {
+      "kind": "power_law",
+      "index": 0.0,
+      "smoothing": 6.25
+    },
+    "exclude_nyquist": true,
+    "tolerance": 1e-10
+  },
+  "null": {
+    "seeds": 25,
+    "A": 2.0,
+    "amplitudes": [
+      0.25,
+      0.5,
+      1,
+      2,
+      4,
+      8,
+      16,
+      24,
+      32,
+      48,
+      64,
+      96,
+      128,
+      256
+    ],
+    "include_original_L1_A1": false
+  },
+  "scan": {
+    "seeds": 25,
+    "amplitudes": [
+      0.25,
+      0.5,
+      1,
+      2,
+      4,
+      8,
+      16,
+      24,
+      32,
+      48,
+      64,
+      96,
+      128,
+      256
+    ]
+  },
+  "positive": {
+    "seeds": 0,
+    "fractions": []
+  },
+  "save_tetrahedra": true,
+  "scheduler": {
+    "partition": "public-cpu",
+    "cpus": 4,
+    "memory": "24G",
+    "time": "00:20:00",
+    "concurrency": 4,
+    "seeds_per_task": 1,
+    "validate": {
+      "partition": "public-cpu",
+      "cpus": 4,
+      "memory": "24G",
+      "time": "00:20:00"
+    },
+    "summary": {
+      "partition": "public-cpu",
+      "cpus": 2,
+      "memory": "4G",
+      "time": "00:30:00"
+    }
+  },
+  "seed_start": 100,
+  "length_unit": "h^-1 Mpc (comoving)",
+  "amplitude_protocol": {
+    "path": "/home/users/h/hes/scratch/projects/cosmicPV/field_PVdisp_A/extended/protocol.json",
+    "sha256": "794c2446bba529fbc1da7204d5613c99b6e3f74725cddcb9c3a04d0ca94695b8"
+  }
+}

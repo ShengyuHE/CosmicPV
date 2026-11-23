@@ -1,0 +1,16 @@
+{
+  "description": "Technical pilot: Gaussian mesh + Zel'dovich + independent helical displacement, sampled by lattice particles. Toy spectrum; initial conditions only.",
+  "purpose": "technical_pilot",
+  "field": {
+    "model": "mesh_za_helical", "amplitude_convention": "rms",
+    "L": 100.0, "N": 16, "particle_grid": 16, "Ngal": 4096,
+    "sigma_delta": 0.2, "helical_smoothing": 6.25,
+    "spectrum": {"kind": "power_law", "index": 0.0, "smoothing": 6.25},
+    "exclude_nyquist": true, "tolerance": 1e-10
+  },
+  "null": {"seeds": 4, "A": 2.0, "include_original_L1_A1": false},
+  "scan": {"seeds": 4, "amplitudes": [0.5, 2.0]},
+  "positive": {"seeds": 0, "fractions": []},
+  "save_tetrahedra": true,
+  "scheduler": {"partition": "debug-cpu", "cpus": 1, "memory": "3G", "time": "00:10:00", "concurrency": 2, "seeds_per_task": 2}
+}

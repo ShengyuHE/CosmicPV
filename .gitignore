@@ -1,0 +1,31 @@
+.venv/
+build/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
+.env
+.env.*
+
+# Keep executed reports and the fiducial configuration; scratch data stays external.
+/results/*
+!/results/*.ipynb
+!/results/fiducial_configuration.json
+*.npy
+*.npz
+*.h5
+*.hdf5
+
+# These durable inputs currently live under logs; exclude generated job output.
+/logs/*
+!/logs/configs/
+!/logs/patches/
+!/logs/reports/
+!/logs/vendor/
+/logs/vendor/*
+!/logs/vendor/sources.json
+!/logs/vendor/DIVE/
+*.log
+slurm-*.out
